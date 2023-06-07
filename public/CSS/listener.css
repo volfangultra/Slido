@@ -1,0 +1,111 @@
+.pitanja{
+    height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.like{
+    color:var(--main-dark);
+}
+.like:hover{
+    color:var(--complementary);
+}
+
+
+
+
+
+
+.modal {
+    display:block;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn{
+    color:white;
+}
+.btn:hover{
+    color:white;
+}
+
+
+
+.rating > span:hover:before {
+    content: "\2605";
+    position: absolute;
+}
+
+#rating_bar>span:hover:before,
+#rating_bar span:hover~span:before {
+    color: #4bce32;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    color: var(--main-dark);
+    content: "\2605";
+    position: absolute;
+    cursor:grab;
+}
+
+.rating {
+    text-align: center;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    color: var(--main-dark);
+    content: "\2605";
+    position: absolute;
+    cursor:grab;
+}
+
+span{
+    font-size: 3rem;
+}

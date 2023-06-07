@@ -1,0 +1,58 @@
+<%
+function pretvori(date){
+    date = new Date(date);
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    date = year + "-" + month + "-" + day;
+    return date;
+
+}
+%>
+<div class="help m-5">
+    <div class="row obojeno p-3 mb-3">
+        <div class="col-8 justify-content-start d-flex align-items-center">
+            <h1 class="text-center">Classes (Sorted by <%=sort%>)</h1>
+        </div>
+        <div class="col-4 justify-content-end d-flex align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="special" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SORT BY
+                </button>
+                <div class="dropdown-menu" aria-labelledby="special">
+                    <a class="dropdown-item" href="/teacher/predavanja">Time</a>
+                    <a class="dropdown-item" href="/teacher/predavanja_abecedno">Name</a>
+                    <a class="dropdown-item" href="/teacher/predavanja_broj_pitanja">Answered Questions</a>
+                    <a class="dropdown-item" href="/teacher/predavanja_kvaliteta">Quality</a>
+                    <a class="dropdown-item" href="/teacher/predavanja_rating">Rating</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <%for(let i = 0; i < classes.length; i++){%>
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+            <a href="<%='/teacher/predavanje/' + classes[i].kod%>"><div class="card my-shadow mb-3">
+                    <%if(classes[i].slika === null){%>
+                        <img class="card-img-top" src="/Slike/default_class.png" alt="Card image cap" height="300px" width="auto">
+                    <%} else {%>
+                    <img class="card-img-top" src="<%=classes[i].slika%>" alt="Card image cap" height="300px" width="auto">
+                    <%}%>
+                    <div class="card-body">
+                        <h2 class="card-title text-center"><%=classes[i].ime_predavanja%></h2>
+                        <p class="card-text text-center"><%=classes[i].about%></p>
+                        <p class="card-text text-center bigger"><%=classes[i].datum.toLocaleDateString()%></p>
+                        <p class="card-text text-center"><strong>Number of Questions:</strong> <%=classes[i].broj_pitanja%></p>
+                        <p class="card-text text-center"><strong>Number of Answered Questions:</strong> <%=classes[i].broj_odgovorenih_pitanja%></p>
+                        <%if(classes[i].prosjecna_ocjena != null){%>
+                            <p class="card-text text-center"><strong>Rating:</strong> <%=Math.round(classes[i].prosjecna_ocjena * 100)/100%></p>
+                        <%}%>
+                    </div>
+                </div></a>
+        </div>
+        <%}%>
+    </div>
+</div>

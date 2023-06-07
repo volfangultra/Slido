@@ -1,0 +1,163 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<div id="myModal2" class="modal1">
+    <div class="modal-content1">
+        <h1>Do you want to recive statistics of this class?</h1>
+        <div class="d-flex justify-content-evenly mt-5">
+            <button class="btn bigger" onclick="salji_statistiku()">YES</button>
+            <button class="btn bigger" onclick="zatvori()">NO</button>
+        </div>
+    </div>
+</div>
+
+<div class="container-xxl okruzen">
+    <div class="row">
+        <div class="col justify-content-start d-flex  align-items-center">
+            <h1 class="m-1"><%=cas.ime%></h1>
+            <div class="dropdown text-end">
+                <button class="btn dropdown-toggle" type="button" id="yellow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SHARE
+                </button>
+                <div class="dropdown-menu" aria-labelledby="special">
+                    <a class="dropdown-item" href="<%='/krupno_kod/' + cas.kod%>" target="_blank">Class Code</a>
+                    <a class="dropdown-item" href="<%='/qr_kod/' + cas.kod%>" target="_blank">QR Code</a>
+                    <a class="dropdown-item" href="#" onclick="salji_email()">Email</a>
+                </div>
+            </div>
+        </div>
+        <div class="col justify-content-end d-flex p-0">
+            <button class="btn" onclick="otvori_modal()">End class</button>
+        </div>
+    </div>
+    <div class="row pitanja mt-5">
+        <div class="col-lg-7 col-md-12 text-center">
+            <h2>Questions</h2>
+            <table class="table" id="tabla_pitanja">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Action</th>
+                    <th scope="col" class="text-center">Likes</th>
+                </tr>
+                </thead>
+                <tbody id="poruke">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-5 col-md-12 text-center">
+            <h2>Answered Questions</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Question</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody id="odgovorene_poruke">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center d-flex">
+        <h2 class="text-center"><a href="#skriveno" onclick="pokazi()">Hidden Questions</a></h2>
+        <table class="table" id="sakriveno" style="display:none">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Question</th>
+                <th scope="col" class="text-center">Action</th>
+                <th scope="col" class="text-center">Likes</th>
+            </tr>
+            </thead>
+            <tbody id="sakrivene_poruke">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let buffer;
+    let posalji_mail = false;
+    function zatvori(){
+        posalji_mail = false;
+        document.getElementById('myModal2').style.display = "none";
+        izasao();
+    }
+    function pokazi(){
+        if(document.getElementById('sakriveno').style.display === "table")
+            document.getElementById('sakriveno').style.display = "none";
+        else
+            document.getElementById('sakriveno').style.display = "table";
+    }
+    function izasao(){
+        socket.emit('izaso', '<%=cas.kod%>', '<%=cas.nacin%>', posalji_mail, buffer);
+        window.location.href="/";
+    }
+
+    function update(){
+        socket.emit('teacher_update', '<%=cas.kod%>')
+    }
+
+    var socket = io.connect('ws://' + '<%=domena%>', { transports : ['websocket'] });
+
+    socket.emit('dosao_teacher', '<%=cas.kod%>');
+
+    socket.on('sve_poruke', function(poruke){
+        document.getElementById('poruke').innerHTML = "";
+        document.getElementById('sakrivene_poruke').innerHTML = "";
+        buffer = poruke;
+        poruke.forEach(item => {
+            let ruta_oznaci = "/poruke/oznaci_pitanje/" + item.id + "/" + item.id_predavanja;
+            let ruta_obrisi = "/poruke/brisi_pitanje/" + item.id + "/" + item.id_predavanja;
+            let ruta_sakriji = "/poruke/sakriji_pitanje/" + item.id + "/" + item.id_predavanja;
+            let ruta_odgovori = "/poruke/odgovori_pitanje/" + item.id + "/" + item.id_predavanja;
+            let ruta_otkriji = "/poruke/otkriji_pitanje/" + item.id + "/" + item.id_predavanja;
+            let ruta_ne_oznaci = "/poruke/ne_oznaci_pitanje/" + item.id + "/" + item.id_predavanja;
+
+            if(item.je_sakriveno === 0 && item.je_odgovoreno === 0 && item.je_oznaceno === 0){
+                document.getElementById('poruke').innerHTML += '<tr class="text-center"><td>' + item.ime + "</td><td>" + item.pitanje + '</td><td><div class="justify-content-evenly d-flex">'
+                    + `<a href="${ruta_odgovori}" onclick="update()"><i class="fa fa-check m-1"></i></a>`
+                    + `<a href="${ruta_oznaci}" onclick="update()"><i class="fa fa-thumb-tack m-1"></i></a>`
+                    + `<a href="${ruta_sakriji}" onclick="update()"><i class="fa fa-eye-slash m-1"></i></a>`
+                    + `<a href="${ruta_obrisi}" onclick="update()"><i class="fa fa-trash m-1"></i></a></div>` +  "</td><td>" + item.lajkovi + "</td></tr>";
+            } else
+            if(item.je_odgovoreno === 1){
+                document.getElementById('odgovorene_poruke').innerHTML += '<tr class="text-center"><td>' + item.pitanje + '</td><td><div class="justify-content-evenly d-flex">'
+                    + `<a href="${ruta_obrisi}"><i class="fa fa-trash m-1"></i></a></div>` +  "</td></tr>"
+            } else
+            if(item.je_sakriveno === 1){
+                document.getElementById('sakrivene_poruke').innerHTML += '<tr class="text-center"><td>' + item.ime + "</td><td>" + item.pitanje + '</td><td><div class="justify-content-evenly d-flex">'
+                    + `<a href="${ruta_otkriji}"><i class="fa fa-eye m-1"></i></a>`
+                    + `<a href="${ruta_obrisi}"><i class="fa fa-trash m-1"></i></a></div>` +  "</td><td>" + item.lajkovi + "</td></tr>";
+            } else
+            if(item.je_oznaceno === 1){
+                document.getElementById('poruke').innerHTML += '<tr class="text-center"><td>' + item.ime + "</td><td><mark>" + item.pitanje + '</mark></td><td><div class="justify-content-evenly d-flex">'
+                    + `<a href="${ruta_odgovori}"><i class="fa fa-check m-1"></i></a>`
+                    + `<a href="${ruta_ne_oznaci}"><i class="fa fa-ban m-1"></i></a>`
+                    + `<a href="${ruta_sakriji}"><i class="fa fa-eye-slash m-1"></i></a>`
+                    + `<a href="${ruta_obrisi}"><i class="fa fa-trash m-1"></i></a></div>` +  "</td><td>" + item.lajkovi + "</td></tr>";
+            }
+        })
+    })
+
+    function salji_email(){
+        let person = prompt("Please Enter Email");
+        if (person != null) {
+            socket.emit('salji_mail', '<%=cas.kod%>', person);
+        }
+    }
+
+    function salji_statistiku(){
+        posalji_mail = true;
+        document.getElementById('myModal2').style.display = "none";
+        izasao();
+    }
+
+    function otvori_modal(){
+        document.getElementById('myModal2').style.display = "block";
+    }
+</script>

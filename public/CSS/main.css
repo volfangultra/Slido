@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sono:wght@300;400;500;600;700&display=swap');
+
+:root{
+    --main:#0D63A5;
+    --main-dark:#083358;
+    --main-light:#B6DFFF;
+    --main-darker:#001F3F;
+    --complementary: #F0D96C;
+    --complementary-strong:#FFD717;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+a{
+    text-decoration: none;
+    color:black;
+}
+a:hover{
+    color:var(--complementary-strong);
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer {
+    background-color:var(--main-darker);
+}
+
+.icon {
+    font-size:3rem;
+    color:var(--main-light);
+}
+
+footer a{
+    color:var(--main-light);
+}
+footer a:hover{
+    color:var(--complementary-strong);
+}
+footer .credits{
+    color:var(--main-light);
+}
+
+.active{
+    color:var(--complementary-strong);
+}
+
+p{
+    text-align: center;
+}
+
+body{ min-height: 100vh; margin:0; }
+
+body{ display:flex; flex-direction:column; }
+.container, .help{ flex:1; }
+
+.btn{
+    background-color:var(--main-dark);
+    border:none;
+}
+.btn:hover{
+    background-color:var(--main);
+}
+.form-check-input:checked{
+    background-color:var(--main-dark)
+}
+
+
+.form-check-input:focus {
+    border-color: var(--main);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--main-light);
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: var(--main    );
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--main-light);
+}
+
+body{
+    overflow: scroll;
+}
+
+#big {
+    height: 90%;
+    text-align:center;
+    display:table;
+    width:100%;
+}
+
+.pomoc{
+    height: 90%;
+    text-align:center;
+    display:table;
+    width:100%;
+}
+
+#big h1 {display:table-cell; vertical-align:middle; font-size: calc(20vw)}
+
+#yellow{
+    color:black;
+    background-color: var(--complementary);
+
+}
+#yellow:hover{
+    color:black;
+    background-color: var(--complementary-strong);
+
+}
+

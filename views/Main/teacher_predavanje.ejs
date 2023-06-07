@@ -1,0 +1,73 @@
+
+<div class="container mb-5 mt-5">
+    <div class="row login-shadow">
+        <div class="col-md-6 order-last col-sm-12 p-3">
+            <h1 class="text-center"><%=cas.ime%></h1>
+            <div class="bigger" >Datum: <%=cas.datum.toLocaleDateString()%></div>
+            <div class="bigger">Code: <%=cas.kod%></div>
+            <div class="bigger">About:</div>
+                <p><%=cas.about%></p>
+
+        </div>
+        <div class="col-md-6 order-first col-sm-12 p-0">
+            <%if(cas.slika === null){%>
+                <img src="/Slike/default_class.png" class="img-fluid p-0" alt="">
+            <%}else{%>
+                <img src="<%=cas.slika%>" class="img-fluid p-0" alt="">
+            <%}%>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="text-center">Questions</h1>
+    <div class="row pitanja">
+        <div class="col">
+            <table class="table" id="tabla_pitanja">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">Name</th>
+                    <th scope="col" class="text-center">Question</th>
+                    <th scope="col" class="text-center">Likes</th>
+                    <th scope="col" class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody id="poruke">
+                <%for(let i = 0; i < pitanja.length; i++){%>
+                    <tr>
+                        <td class="text-center"><%=pitanja[i].ime%></td>
+                        <%if(pitanja[i].je_sakriveno === 0){%>
+                            <td class="text-center"><%=pitanja[i].pitanje%></td>
+                            <td class="text-center"> <%=pitanja[i].lajkovi%> </td>
+                        <%}%>
+                        <%if(pitanja[i].je_odgovoreno === 1){%>
+                            <td class="text-center"><strong style="color:#0D63A5">Answered</strong></td>
+                        <%} else if(pitanja[i].je_sakriveno === 1){%>
+                            <td class="text-center"><span id="<%='otkriji' + i%>" style="display: none"><%=pitanja[i].pitanje%></span></td>
+                            <td class="text-center"> <%=pitanja[i].lajkovi%> </td>
+                            <td class="text-center"><button class="btn" id="<%='dugme' + i%>" onclick="otkriji(<%=i%>)">SHOW</button></td>
+                        <%}else{%>
+                            <td class="text-center"></td>
+                        <%}%>
+                    </tr>
+                <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function otkriji(i){
+        let za_otkrit = document.getElementById('otkriji' + i).style;
+        let dugme = document.getElementById('dugme' + i);
+        if(za_otkrit.display === "none"){
+            za_otkrit.display = "block";
+            dugme.innerHTML = "HIDE";
+        }
+        else{
+            za_otkrit.display = "none";
+            dugme.innerHTML = "SHOW";
+        }
+    }
+</script>

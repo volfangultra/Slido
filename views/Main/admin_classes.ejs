@@ -1,0 +1,236 @@
+<div class="container-fluid">
+    <h1 class="h1 text-center p-3 obojeno">Classes</h1>
+    <div class="row">
+        <%for(let i = 0; i < classes.length; i++){ var vrijeme;%>
+        <div class="col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-12">
+            <div class="card my-shadow mb-3">
+                <%if(classes[i].slika === null){%>
+                    <img class="card-img-top" src="/Slike/default_class.png" alt="Card image cap" height="300px" width="auto">
+                <%} else {%>
+                <img class="card-img-top" src="<%=classes[i].slika%>" alt="Card image cap" height="300px" width="auto">
+                <%}%>
+                <div class="card-body">
+                    <h2 class="card-title text-center"><strong>Name: </strong><%=classes[i].ime%></h2>
+                    <h2 class="card-title text-center"><strong>Teacher: </strong><%=classes[i].first_name%></h2>
+                    <p class="card-text text-center"><strong>About: </strong><%=classes[i].about%></p>
+                    <p class="card-text text-center bigger"><strong>Begining: </strong><%=classes[i].pocetak.toLocaleDateString()%></p>
+                    <p class="card-text text-center bigger"><strong>End: </strong><%=classes[i].kraj.toLocaleDateString()%></p>
+                    <p class="card-text text-center bigger"><strong>Repeat: </strong><%=classes[i].nacin%></p>
+                </div>
+                <div class="text-center p-2">
+                    <a href="#" data-bs-target="<%="#edit_class" + i%>" data-bs-toggle="modal" class="btn" onclick="start('<%=classes[i].ime%>', '<%=classes[i].about%>', '<%=classes[i].pocetak%>', '<%=classes[i].nacin%>', '<%=classes[i].kraj%>', '<%=classes[i].id%>', '<%=classes[i].first_name%>', '<%=i%>')"><i class="fa fa-pencil"></i></a>
+                    <a href="<%="/admin/classes/obrisi/" + classes[i].id + "/" + code%>"  class="btn"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+        <%}%>
+    </div>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-12 justify-content-center d-flex">
+        <a href="#" class="btn text-center big align-items-center d-flex justify-content-center" data-bs-target="#create_class" data-bs-toggle="modal" onclick="reset_modal()"><i class="fa fa-plus"></i></a>
+    </div>
+</div>
+
+<%let array = [];
+for(let i = 0; i < classes.length; i++)
+    array.push(classes[i].first_name);
+array = new Set(array);%>
+
+<%for(let i = 0; i < classes.length; i++){%>
+<div class="modal fade edit_class"  id="<%="edit_class" + i%>" tabindex="-1" aria-labelledby="title" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Class</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mx-1 mx-md-4" method="POST" enctype="multipart/form-data"  id="register">
+                    <legend class="greska" id="<%="postoji_ime2" + i%>">You already teach a class with this name</legend>
+                    <legend class="greska" id="<%="postoji_teacher" + i%>">There doesn't exist a specified teacher</legend>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="<%="teachers" + i%>" class="form-label">Teacher</label>
+                                <select id="<%="edit_teacher_name" + i%>" class="form-select" value="<%=classes[i].first_name%>">
+                                    <%for(element of array.values()){
+                                        if(element === classes[i].first_name){%>
+                                            <option value="<%=element%>" selected><%=element%></option>
+                                        <%}else{%>
+                                            <option value="<%=element%>"><%=element%></option>
+                                        <%}%>
+                                    <%}%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="<%="edit_name" + i%>" class="form-label">Name</label>
+                                <input type="text" id="<%="edit_name" + i%>" name="name" class="form-control" placeholder="Name">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="<%="no_name" + i%>">You did not specify the name of the class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <textarea  id="<%="edit_about" + i%>" name="about" class="form-control" rows="4" cols="50"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="<%="pocetak" + i%>" class="form-label">Date of class:</label>
+                                <input type="date" id="<%="edit_pocetak" + i%>" name="pocetak" class="form-control">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="<%="no_pocetak" + i%>">You did not select Date and time of class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <select class="form-select" aria-label="Default select example" id="<%="edit_repeat_rule" + i%>">
+                                <option selected disabled>Repeat rule</option>
+                                <option value="1">Never</option>
+                                <option value="2">Weakly</option>
+                                <option value="3">Monthly</option>
+                            </select>
+                        </div>
+                        <p class="greska text-center" id="<%="no_repeat_rule" + i%>">You did not select the repeat rule</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="do_kad" class="form-label">Repeats until</label>
+                                <input type="date" class="form-control" name="do_kad" id="<%="edit_do_kad" + i%>">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="<%="no_do_kad" + i%>">Repeats until needs to be after Date of class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="slika" class="form-label">Change class image</label>
+                                <input class="form-control" type="file" name="slika" id="<%="edit_slika" + i%>">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Change</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%}%>
+
+<div class="modal fade"  id="create_class" tabindex="-1" aria-labelledby="title" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Class</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mx-1 mx-md-4" method="POST" enctype="multipart/form-data"  id="register">
+                    <legend class="greska" id="postoji_ime">You already teach a class with this name</legend>
+                    <legend class="greska" id="postoji_teacher">There doesn't exist a specified teacher</legend>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for=teachers" class="form-label">Teacher</label>
+                                <input type="text" list="teachers" id="teacher_name" class="form-control" value="">
+                                <datalist id="teachers">
+                                    <%for(element of array.values()){%>
+                                    <option><%=element%></option>
+                                    <%}%>
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Name">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="no_name">You did not specify the name of the class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <textarea  id="about" name="about" class="form-control" rows="4" cols="50"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="pocetak" class="form-label">Date and Time of class:</label>
+                                <input type="date" id="pocetak" name="pocetak" class="form-control">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="no_pocetak">You did not select Date and time of class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <select class="form-select" aria-label="Default select example" id="repeat_rule">
+                                <option selected disabled>Repeat rule</option>
+                                <option value="1">Never</option>
+                                <option value="2">Weakly</option>
+                                <option value="3">Monthly</option>
+                            </select>
+                        </div>
+                        <p class="greska text-center" id="no_repeat_rule">You did not select the repeat rule</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="do_kad" class="form-label">Repeats until</label>
+                                <input type="date" class="form-control" name="do_kad" id="do_kad">
+                            </div>
+                        </div>
+                        <p class="greska text-center" id="no_do_kad">Repeats until needs to be after Date of class</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="form-outline flex-fill mb-0">
+                                <label for="slika" class="form-label">Change class image</label>
+                                <input class="form-control" type="file" name="slika" id="slika">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/JavaSkript/administration_classes.js"></script>

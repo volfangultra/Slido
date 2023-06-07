@@ -1,0 +1,94 @@
+.obojeno{
+    background-color: var(--main);
+    color:white
+}
+
+.big{
+    font-size: 5rem;
+    width: 150px;
+    height:150px;
+}
+
+.btn{
+    color:white;
+}
+.btn:hover{
+    color:white;
+}
+#special:hover{
+    background-color: var(--complementary);
+}
+
+
+.greska{
+    display: none;
+    color:red;
+}
+
+.my-shadow{
+    margin:0;
+    padding:0;
+    box-shadow: 0.5rem 0.5rem 0 0 var(--main);
+    border:0.1rem solid var(--main-darker);
+}
+
+.card-img-top{
+    object-fit: contain;
+}
+
+.my-shadow:hover{
+    box-shadow: 1rem 1rem 0 0 var(--main-light);
+    color:black;
+}
+
+.bigger{
+    font-size: 2rem;
+}
+
+.okruzen{
+    border: 1px solid var(--main);
+    box-shadow: 0.5rem 0.5rem 0 0 var(--main-light);
+    border-radius: 0.5rem;
+}
+
+.pitanja{
+    height: 50rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+tr i{
+    color:var(--main-darker);
+}
+tr i:hover{
+    color:var(--complementary);
+}
+
+.login-shadow{
+    margin:0;
+    padding:0;
+    box-shadow: 0.5rem 0.5rem 0 0 var(--main);
+    border:0.1rem solid var(--main-darker);
+}
+
+.modal1 {
+    display:none;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content1 {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}

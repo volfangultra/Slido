@@ -1,0 +1,19 @@
+<header class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-xs-12 d-flex align-items-center justify-content-lg-start justify-content-sm-center">
+            <a href="/"><img src="/Slike/logo.svg" width="100px" height="auto" alt="logo"></a>
+            <h1 class="display-6" id="top">Teacher</h1>
+        </div>
+        <div class="col-lg-6 col-xs-12 d-flex align-items-center justify-content-lg-end justify-content-sm-center">
+            <p>
+                <%if(profile_image === null) {%>
+                    <a href="/"><img src="/Slike/default_user.png" height="100px" width="auto" class="rounded pt-3" alt="User image"></a>
+                <%} else {%>
+                    <a href="/"><img src="<%=profile_image%>" height="100px" width="auto" class="rounded-circle pt-3" alt="User image"></a><%}%>
+                <br>
+                <%=first_name%><br>
+                <a href="/logout">Log Out</a>
+            </p>
+        </div>
+    </div>
+</header>

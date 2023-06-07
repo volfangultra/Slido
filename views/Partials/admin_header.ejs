@@ -1,0 +1,15 @@
+<header class="container-fluid p-0" id="uzmi_kod" code=<%=code%>>
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center justify-content-md-start justify-content-center">
+            <a href="/"><img src="/Slike/logo.svg" width="100px" height="auto" alt="logo"></a>
+            <h1 class="display-6" id="top"><%=username%></h1>
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-md-end justify-content-center">
+            <span class="p-3"><a href=<%="/admin/" + code%> class="<%=aktivni[0]%>">Administrators</a></span>
+            <span class="p-3"><a href=<%="/admin/teachers/" + code%> class="<%=aktivni[1]%>">Teachers</a></span>
+            <span class="p-3"><a href=<%="/admin/classes/" + code%> class="<%=aktivni[2]%>">Classes</a></span>
+            <span class="p-3"><a href=<%="/admin/previus_classes/" + code%> class="<%=aktivni[3]%>">Previus Classes</a></span>
+            <span class="p-3"><a href=<%="/admin/forbiden_words/" + code%> class="<%=aktivni[4]%>">Forbidden Words</a></span>
+        </div>
+    </div>
+</header>

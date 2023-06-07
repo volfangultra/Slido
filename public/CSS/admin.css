@@ -1,0 +1,48 @@
+i{
+    font-size:1.5rem;
+}
+table{
+    font-size: 1.5rem;
+}
+thead{
+    font-size: 2rem;
+}
+
+.no-border{
+    border-bottom-width:0 !important;
+ }
+
+.btn{
+    color:white;
+}
+.btn:hover{
+    color:white;
+}
+
+.table th{
+    padding-right: 2rem;
+    padding-left: 2rem;
+
+}
+
+.greska{
+    display: none;
+    color:red;
+}
+
+.my-shadow{
+    margin:0;
+    padding:0;
+    box-shadow: 0.5rem 0.5rem 0 0 var(--main);
+    border:0.1rem solid var(--main-darker);
+}
+
+.card-img-top{
+    object-fit: contain;
+}
+
+.big{
+    font-size: 5rem;
+    width: 150px;
+    height:150px
+}

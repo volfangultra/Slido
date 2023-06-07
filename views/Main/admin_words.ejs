@@ -1,0 +1,76 @@
+<div class="container justify-content-center align-items-center d-flex">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center" scope="col">ID</th>
+                <th class="text-center" scope="col">WORD</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for(let i = 0; i < words.length; i++){%>
+            <tr>
+                <th scope="row" class="text-center"><%=words[i].id%></th>
+                <td class="text-center"><%=words[i].rijec%></td>
+                <td class="text-center"><a href="#" data-bs-toggle="modal" class="btn" data-bs-target="#change_word" onclick="start('<%=words[i].rijec%>', '<%=words[i].id%>')"><i class="fa fa-pencil"></i></a></td>
+                <td class="text-center"><a href="/admin/forbiden_words/obrisi/<%=words[i].id%>/<%=code%>" class="btn"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            <%}%>
+            <tr class="no_border">
+                <th class="text-center no-border"><a href="#" data-bs-toggle="modal" data-bs-target="#create_word" onclick="reset_modal()"><i class="fa fa-plus"></i></a></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="create_word" tabindex="-1" aria-labelledby="create_admin_label" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="create_word_label">Forbiden Words</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <legend class="greska text-center" id="postoji">That word already exists</legend>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="word" placeholder="Enter New Word">
+                        </div>
+                        <p class="greska text-center" id="nije_prazno">You must write a word</p>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn" id="izlaz">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="change_word" tabindex="-1" aria-labelledby="edit_admin_label" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_admin_label">Edit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <legend class="greska text-center" id="edit_postoji">That word already exists</legend>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="edit_word" placeholder="Change word">
+                        </div>
+                        <p class="greska text-center" id="edit_nije_prazno">You must write a word</p>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn" >Change</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="/JavaSkript/administration_words.js"></script>
+

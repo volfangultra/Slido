@@ -1,0 +1,185 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h1>Enter your name</h1>
+        <input type=text id="ime" class="form-control">
+        <button class="btn m-5" onclick="pokreni()">CONFIRM</button>
+    </div>
+</div>
+
+<div id="myModal2" class="modal" style="display:none">
+    <div class="modal-content">
+        <h1>Rate this class</h1>
+        <div class="rating">
+            <span onclick="rejtaj(5)">☆</span><span onclick="rejtaj(4)">☆</span><span onclick="rejtaj(3)">☆</span><span onclick="rejtaj(2)">☆</span><span onclick="rejtaj(1)">☆</span>
+        </div>
+    </div>
+</div>
+
+<div class="container" onload="funkcija()">
+    <div class="row">
+        <h1 class="text-center"><%=cas.ime%></h1>
+        <div class="dropdown text-end">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="special" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                SORT BY
+            </button>
+            <div class="dropdown-menu" aria-labelledby="special">
+                <a class="dropdown-item" href="#" onclick="sortiraj_po_vremenu()">Time</a>
+                <a class="dropdown-item" href="#" onclick="sortiraj_po_lajkovima()">Likes</a>
+            </div>
+        </div>
+    </div>
+    <div class="row pitanja">
+        <div class="col">
+            <table class="table" id="tabla_pitanja">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">Name</th>
+                    <th scope="col" class="text-center">Question</th>
+                    <th scope="col" class="text-center">Likes</th>
+                </tr>
+                </thead>
+                <tbody id="poruke">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center" >
+            <input type="text" class="form-control" id="tekst_poruke">
+            <input type="button" value="SEND" class="btn" id="salji_poruku"  onclick="posaljiPoruku()" style="color:white">
+        </div>
+    </div>
+</div>
+<script>
+
+    function pokreni(){
+        let person = document.getElementById('ime').value;
+        if (person == null || person === "") {
+            let temp = generate_kod(3);
+            socket.emit('dosao_klijent', "Anonyimus" + temp, '<%= cas.kod %>');
+            console.log("Here");
+            document.getElementById("ubaci_ime").innerHTML = "Anonyimus" + temp;
+        } else {
+            socket.emit('dosao_klijent', person, '<%= cas.kod %>');
+            document.getElementById("ubaci_ime").innerHTML = person;
+        }
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    var lajko_pitanja = [];
+    var klikni_enter = document.getElementById("tekst_poruke");
+    klikni_enter.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("salji_poruku").click();
+            klikni_enter.value = "";
+        }
+    });
+    function generate_kod(length) {
+        var result           = '';
+        var characters       = '0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+    function dodaj_like(id){
+        lajko_pitanja.push(id);
+        $.ajax({
+            method: "POST",
+            action: "/upload",
+            url:"/poruke/dodaj_like/" + '<%=cas.kod%>' + "/" + id,
+            contentType:"application/json",
+            data: null,
+            success: function(res){
+                socket.emit('teacher_update', '<%=cas.kod%>');
+            }
+        })
+    }
+
+    function oduzmi_like(id){
+        const index = lajko_pitanja.indexOf(id);
+        if (index > -1) {
+            lajko_pitanja.splice(index, 1);
+        }
+        $.ajax({
+            method: "POST",
+            action: "/upload",
+            url:"/poruke/oduzmi_like/" + '<%=cas.kod%>' + "/" + id,
+            contentType:"application/json",
+            data: null,
+            success: function(res){
+                socket.emit('teacher_update', '<%=cas.kod%>');
+            }
+        })
+
+    }
+
+    var socket = io.connect('ws://' + '<%=domena%>',  { transports : ['websocket'] });
+
+    function sortiraj_po_vremenu(){
+        socket.emit('sortiraj_po_vremenu', '<%=cas.kod%>', socket.id);
+    }
+
+    function sortiraj_po_lajkovima(){
+        socket.emit('sortiraj_po_lajkovima', '<%=cas.kod%>', socket.id);
+    }
+
+    socket.on('sve_poruke', function (d) {
+        document.getElementById('poruke').innerHTML = "";
+        d.forEach(item => {
+            let dodatak;
+            if(lajko_pitanja.indexOf(item.id) === -1)
+                dodatak = '<a href="#" onclick="dodaj_like(' + item.id + ')"><i class="fa fa-thumbs-up like"></i></a>' + item.lajkovi + "</td></tr>";
+            else
+                dodatak = '<a href="#" onclick="oduzmi_like(' + item.id + ')"><i class="fa fa-thumbs-up active"></i></a>' + item.lajkovi + "</td></tr>";
+
+            if(item.je_odgovoreno === 0 && item.je_sakriveno === 0)
+                if(item.je_oznaceno === 0)
+                    document.getElementById('poruke').innerHTML +=  '<tr class="text-center"><td>' + item.ime + "</td><td>" + item.pitanje + "</td>" +
+                                                                    '<td class="justify-content-evenly d-flex align-items-center">' + dodatak;
+                else
+                    document.getElementById('poruke').innerHTML +=  '<tr class="text-center"><td>' + item.ime + "</td><td><mark>" + item.pitanje + "</mark></td>" +
+                                                                    '<td class="justify-content-evenly d-flex align-items-center">' + dodatak;
+        })
+    });
+
+
+
+    function posaljiPoruku() {
+        let tekst = document.getElementById('tekst_poruke').value;
+        socket.emit('klijent_salje_poruku', tekst, '<%=cas.kod%>');
+    }
+
+    socket.on('end', function(){
+        document.getElementById('myModal2').style.display = "block";
+    })
+
+    function rejtaj(i){
+        $.ajax({
+            method: "POST",
+            action: "/upload",
+            url:"/poruke/ocijeni",
+            contentType:"application/json",
+            data: JSON.stringify({id_korisnika:socket.id, ocjena:i}),
+            success: function(res){
+                window.location.href="/";
+            }
+        })
+
+    }
+
+    var modal = document.getElementById("myModal");
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            pokreni();
+        }
+    }
+</script>

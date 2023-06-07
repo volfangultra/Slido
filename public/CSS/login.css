@@ -1,0 +1,18 @@
+
+
+.login-shadow{
+    margin:0;
+    padding:0;
+    box-shadow: 0.5rem 0.5rem 0 0 var(--main);
+    border:0.1rem solid var(--main-darker);
+}
+
+
+.register i{
+    color: var(--main-dark);
+}
+
+.greska{
+    display: none;
+    color:red;
+}

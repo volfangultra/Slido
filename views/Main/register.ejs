@@ -1,0 +1,86 @@
+<div class="container mt-5 mb-5 p-0 register">
+    <div class="row d-flex justify-content-center align-items-center p-0">
+        <div class="col-lg-12 col-xl-12">
+            <div class="row d-flex justify-content-center login-shadow">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 p-0">
+
+                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+
+                    <form class="mx-1 mx-md-4" method="POST" enctype="multipart/form-data"  id="register">
+                        <div class="mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                                <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name *">
+                                </div>
+                            </div>
+                            <p class="greska" id="nije_unjeto_ime">Please retype your First Name</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                                <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name *">
+                                </div>
+                            </div>
+                            <p class="greska" id="nije_unjeto_prezime">Please retype your Last Name</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                                <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="Email *">
+                                </div>
+                            </div>
+                            <p class="greska" id="nije_unjet_email">Please retype your Email</p>
+                            <p class="greska" id="postoji_email">There exists an account with this Email <a href="/login">Login instead</a></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                                <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Password *">
+                                </div>
+                            </div>
+                            <p class="greska" id="nije_unjeta_sifra">Please retype your password</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                                <i class="fa fa-key fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input type="password" name="repeat_password" id="repeat_password" class="form-control" placeholder="Repeat Password *">
+                                </div>
+                            </div>
+                            <p class="greska" id="nisu_jednake_sifre">Passwords do not match</p>
+                        </div>
+
+                            <div class="d-flex flex-row align-items-center mb-4">
+                                <i class="fa fa-camera fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <input class="form-control" type="file" name="slika" id="slika">
+                                </div>
+                                <img id="frame" src="" class="img-fluid" />
+                            </div>
+                        <p class="greska" id="nisu_jednake_sifre">Passwords do not match</p>
+
+
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2 p-0">
+
+                    <img src="/Slike/login_background.jpg"
+                         class="img-fluid" alt="Sample image">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

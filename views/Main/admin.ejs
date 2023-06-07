@@ -1,0 +1,84 @@
+<div class="container justify-content-center align-items-center d-flex">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center" scope="col">ID</th>
+                <th class="text-center" scope="col">USERNAME</th>
+                <th class="text-center" scope="col">EDIT</th>
+                <th class="text-center" scope="col">DELETE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for(let i = 0; i < admini.length; i++){%>
+            <tr>
+                <th scope="row" class="text-center"><%=admini[i].id%></th>
+                <td class="text-center"><%=admini[i].username%></td>
+                <td class="text-center"><a href="#" data-bs-toggle="modal" class="btn" data-bs-target="#edit_admin" izvor_informacije="<%=admini[i].username%>" onclick="start(<%=admini[i].username%>)"><i class="fa fa-pencil"></i></a></td>
+                <td class="text-center"><a href="/admin/obrisi/<%=admini[i].id%>/<%=code%>" class="btn"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            <%}%>
+            <tr class="no_border">
+                <th class="text-center no-border"><a href="#" data-bs-toggle="modal" data-bs-target="#create_admin" onclick="reset_modal()"><i class="fa fa-plus"></i></a></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="create_admin" tabindex="-1" aria-labelledby="create_admin_label" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="create_admin_label">Administrator</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <legend class="greska text-center" id="postoji_create">That username already exists</legend>
+                        <legend class="greska text-center" id="retype_username">Please retype username</legend>
+                        <legend class="greska text-center" id="retype_password">Please retype password</legend>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="username" placeholder="Username">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn" id="izlaz">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit_admin" tabindex="-1" aria-labelledby="edit_admin_label" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_admin_label"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <legend class="greska text-center" id="postoji">That username already exists</legend>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="change_username" placeholder="New username">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="change_password" placeholder="New password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn" >Change</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="/JavaSkript/administration.js"></script>
