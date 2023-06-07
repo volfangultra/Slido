@@ -1,4 +1,4 @@
-#Slido
+<h1>Slido</h1>
 
 Kreirati aplikaciju koja će pomoći u interakciji publike tokom predavanja, konferencija i drugih sličnih događaja.
 
