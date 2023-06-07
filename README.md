@@ -15,6 +15,6 @@ Predavači su registrovani korisnici koji imaju veliki broj mogućnosti u sistem
 
 Publiku čine gosti sistema (korisnici koji nisu registrovani). Pristupaju putem linka ili koda određenom predavanju, imaju mogućnost postavljanja pitanja, odobravanja već postavljenih pitanja i drugo.
 
-<strong>Frontend: Node.js</strong>
-<strong>Backend: Node.js</strong>
-<strong>Baza: Posgresql</strong>
+<strong>Frontend:&emsp;Node.js</strong></br>
+<strong>Backend:&emsp;Node.js</strong></br>
+<strong>Baza:&emsp;Posgresql</strong></br>
